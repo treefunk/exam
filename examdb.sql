@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 24, 2018 at 11:24 AM
+-- Generation Time: Mar 24, 2018 at 11:38 AM
 -- Server version: 10.1.30-MariaDB
 -- PHP Version: 7.2.2
 
@@ -32,6 +32,19 @@ CREATE TABLE `admin` (
   `id` int(11) NOT NULL,
   `username` varchar(50) NOT NULL,
   `password` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `answers`
+--
+
+CREATE TABLE `answers` (
+  `id` int(11) NOT NULL,
+  `question_id` int(11) NOT NULL,
+  `answer` text NOT NULL,
+  `isCorrect` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -70,6 +83,20 @@ CREATE TABLE `exams` (
   `classroom_id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
   `created_by` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `questions`
+--
+
+CREATE TABLE `questions` (
+  `id` int(11) NOT NULL,
+  `isMultiple` tinyint(1) NOT NULL DEFAULT '0',
+  `isTrueFalse` tinyint(1) NOT NULL DEFAULT '0',
+  `isShortAnswer` tinyint(1) NOT NULL DEFAULT '0',
+  `question` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -157,6 +184,12 @@ ALTER TABLE `admin`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `answers`
+--
+ALTER TABLE `answers`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `classrooms`
 --
 ALTER TABLE `classrooms`
@@ -169,6 +202,12 @@ ALTER TABLE `classrooms`
 ALTER TABLE `exams`
   ADD PRIMARY KEY (`id`),
   ADD KEY `classroom_id` (`classroom_id`);
+
+--
+-- Indexes for table `questions`
+--
+ALTER TABLE `questions`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `students`
@@ -208,6 +247,12 @@ ALTER TABLE `admin`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `answers`
+--
+ALTER TABLE `answers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `classrooms`
 --
 ALTER TABLE `classrooms`
@@ -217,6 +262,12 @@ ALTER TABLE `classrooms`
 -- AUTO_INCREMENT for table `exams`
 --
 ALTER TABLE `exams`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `questions`
+--
+ALTER TABLE `questions`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
