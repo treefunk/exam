@@ -36,7 +36,29 @@ class Classrooms extends BaseController{
 
     public function manage($id)
     {
+        $this->checkIfLoggedIn('teacher');
         $data['classroom'] = $this->classroom_model->view($id);
+        $this->wrapper('classrooms/manage',$data);
+    }
+
+    public function join()
+    {
+        $this->checkIfLoggedIn('student');
+        $code = $this->input->post('classcode');
+        $studentId = $this->session->userdata('id');
+        
+        if($this->classroom_model->joinStudentToClassroom($studentId,$code)){
+            $this->session->set_flashdata(['message' => 'Successfully joined the classroom!']);
+        }
+    }
+
+    public function view($id)
+{
+        
+
+
+        $data['classroom'] = $this->classroom_model->findById($id);
+        $data['teacher'] = $this->teacher_model->teacherOfClassroomId($id);
         $this->wrapper('classrooms/view',$data);
     }
 

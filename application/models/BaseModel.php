@@ -9,9 +9,11 @@ class BaseModel extends CI_Model
 
     public function authenticate($data,$tablename) # types: [Student,Teacher,Admin]
     {
+        
         $q = $this->db->from($tablename)->where('username',$data['username'])->get();
         if($q->num_rows() > 0){
             $user = $q->result()[0];
+
             if(password_verify($data['password'],$user->password)){
                 switch($tablename){
                  case 'students':
@@ -29,6 +31,7 @@ class BaseModel extends CI_Model
                     'type' => $type,
                     'username' => $user->username
                 ]);
+
                 return true;
             }
         }else{

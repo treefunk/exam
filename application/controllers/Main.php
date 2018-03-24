@@ -10,6 +10,7 @@ class Main extends BaseController
         $this->load->helper('url');
         $this->load->model('teacher_model');
         $this->load->model('baseModel');
+        $this->load->model('student_model');
     }
 
     public function index()
@@ -19,8 +20,8 @@ class Main extends BaseController
             $this->wrapper('teacher_dashboard',$data);
 
         }elseif($this->checkIfLoggedIn('student')){
-
-            $this->wrapper('student_dashboard');
+            $data['classrooms'] = $this->student_model->classroomsOfStudentId($this->session->userdata('id'));
+            $this->wrapper('student_dashboard',$data);
 
         }elseif($this->checkIfLoggedIn('admin')){
 
@@ -36,6 +37,7 @@ class Main extends BaseController
     {
         $data['username'] = $this->input->post('username');
         $data['password'] = $this->input->post('password');
+        
         switch($num){
             case 1:
                 $tablename = 'students';

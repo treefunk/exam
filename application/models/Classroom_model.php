@@ -13,7 +13,7 @@ class Classroom_model extends BaseModel{
 
     public function createClassroom($classroom)
     {
-        $teacherId = $this->teacherLoggedInId();
+        $teacherId = $this->session->userdata('id');
         $code = $this->generateCode($teacherId);
         if($q = $this->db->insert('classrooms',[
             'name' => $classroom['name'],
@@ -40,6 +40,32 @@ class Classroom_model extends BaseModel{
         return $q;
     }
 
+    public function joinStudentToClassroom($studentId,$classcode)
+    {
+        $q = $this->db->from('classrooms')
+                      ->where('code',$classcode)
+                      ->get();
+        if($q->num_rows() > 0)
+        {
+            $classroom = $q->row();
+            $q = $this->db->insert('student_classroom',[
+                'student_id' => $studentId,
+                'classroom_id' => $classroom->id
+            ]);
+            if($q){
+                return true;
+            }
+        }else{
+            return false;
+        }
+    }
 
+    public function findById($id)
+    {
+        $q = $this->db->from('classrooms')
+                      ->where('id',$id)
+                      ->get();
+        return $q->row();
+    }
 
 }

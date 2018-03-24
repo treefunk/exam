@@ -18,4 +18,13 @@ class Teacher_model extends BaseModel{
         return $q->result();
     }
 
+    public function teacherOfClassroomId($id)
+    {
+        $q = $this->db->from('teachers')
+                      ->join('classrooms','teachers.id = classrooms.teacher_id')
+                      ->where('classrooms.id',$id)
+                      ->get();
+        return $q->row();
+    }
+
 }
