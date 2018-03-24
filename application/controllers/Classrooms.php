@@ -21,7 +21,15 @@ class Classrooms extends BaseController{
         {
             $this->wrapper('classrooms/create');
         }else{
-            $this->classroom_model->create();
+            if($this->classroom_model->createClassroom($this->input->post())){
+                //Success
+                $this->session->set_flashdata(['message' => 'Successfully Created a classroom!']);
+                redirect('');
+            }else{
+                //fail
+                $this->session->set_flashdata(['message' => 'Cannot Create Classroom.']);
+                redirect('');
+            }
         }
     }
 }

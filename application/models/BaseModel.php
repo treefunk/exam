@@ -41,4 +41,13 @@ class BaseModel extends CI_Model
         $data['password'] = password_hash($data['password'],PASSWORD_BCRYPT);
         return $this->db->set($data)->insert($type);
     }
+
+    public function teacherLoggedInId(){
+        $teacherId =  $this->db->from('teachers')
+                        ->where('username',$this->session->userdata('username'))
+                        ->get()
+                        ->row()
+                        ->id;
+        return $teacherId;
+    }
 }
