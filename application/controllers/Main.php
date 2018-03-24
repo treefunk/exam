@@ -16,19 +16,19 @@ class Main extends BaseController
     {
         if($this->checkIfLoggedIn('teacher')){
 
-            $this->load->view('teacher_dashboard');
+            $this->wrapper('teacher_dashboard');
 
         }elseif($this->checkIfLoggedIn('student')){
 
-            $this->load->view('student_dashboard');
+            $this->wrapper('student_dashboard');
 
         }elseif($this->checkIfLoggedIn('admin')){
 
-            $this->load->view('admin_dashboard');
+            $this->wrapper('admin_dashboard');
 
         }else{
             
-            $this->load->view('login');
+            $this->wrapper('login');
         }
     }
 
@@ -49,6 +49,7 @@ class Main extends BaseController
         }
         if(isset($tablename)){
             $this->baseModel->authenticate($data,$tablename);
+            redirect(base_url());
         }
     }
 
@@ -82,4 +83,12 @@ class Main extends BaseController
             $this->load->view('signup');
         }
     }
+
+    public function logout()
+    {
+        $this->session->sess_destroy();
+        redirect(base_url(''));
+    }
+
+
 }
