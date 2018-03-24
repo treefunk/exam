@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 22, 2018 at 12:40 PM
+-- Generation Time: Mar 24, 2018 at 11:24 AM
 -- Server version: 10.1.30-MariaDB
 -- PHP Version: 7.2.2
 
@@ -31,7 +31,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `admin` (
   `id` int(11) NOT NULL,
   `username` varchar(50) NOT NULL,
-  `password` varchar(50) NOT NULL
+  `password` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -46,6 +46,18 @@ CREATE TABLE `classrooms` (
   `code` varchar(50) DEFAULT NULL,
   `name` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `classrooms`
+--
+
+INSERT INTO `classrooms` (`id`, `teacher_id`, `code`, `name`) VALUES
+(5, 5, '5594e', 'math'),
+(6, 5, '57db8', 'ggwp'),
+(7, 5, '5d6a7', 'gfd'),
+(8, 5, '589c1', 'dff'),
+(9, 5, '59e67', 'gfdg'),
+(10, 5, '52736', 'fdsf');
 
 -- --------------------------------------------------------
 
@@ -69,10 +81,17 @@ CREATE TABLE `exams` (
 CREATE TABLE `students` (
   `id` int(11) NOT NULL,
   `username` varchar(50) NOT NULL,
-  `password` varchar(50) NOT NULL,
+  `password` varchar(100) NOT NULL,
   `firstname` varchar(50) NOT NULL,
   `lastname` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `students`
+--
+
+INSERT INTO `students` (`id`, `username`, `password`, `firstname`, `lastname`) VALUES
+(3, 'jhondzstudent', '$2y$10$xcLlPArPMZVeC2srn/hLJuRToNEDP0rRAZk1XfhWGJ3vJjSTCSY7y', '', '');
 
 -- --------------------------------------------------------
 
@@ -84,6 +103,13 @@ CREATE TABLE `student_classroom` (
   `student_id` int(11) DEFAULT NULL,
   `classroom_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `student_classroom`
+--
+
+INSERT INTO `student_classroom` (`student_id`, `classroom_id`) VALUES
+(3, 5);
 
 -- --------------------------------------------------------
 
@@ -185,7 +211,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `classrooms`
 --
 ALTER TABLE `classrooms`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `exams`
@@ -197,7 +223,7 @@ ALTER TABLE `exams`
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `student_scores`
