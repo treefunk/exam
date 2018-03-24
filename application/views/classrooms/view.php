@@ -1,4 +1,4 @@
-Your teacher: <?=$teacher->name ?>
+Your teacher: <?=$teacher->username ?>
 
 Classroom name: <?=$classroom->name?>
 
