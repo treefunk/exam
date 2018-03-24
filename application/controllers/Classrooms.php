@@ -8,6 +8,7 @@ class Classrooms extends BaseController{
         parent::__construct();
         $this->load->model('classroom_model');
         $this->load->model('teacher_model');
+        $this->load->model('student_model');
     }
 
     public function create()
@@ -53,13 +54,18 @@ class Classrooms extends BaseController{
     }
 
     public function view($id)
-{
-        
-
-
+    {
         $data['classroom'] = $this->classroom_model->findById($id);
         $data['teacher'] = $this->teacher_model->teacherOfClassroomId($id);
         $this->wrapper('classrooms/view',$data);
+    }
+
+    public function students($id)
+    {
+
+        $data['students'] = $this->student_model->studentsInClassroomId($id) ;
+        
+        $this->wrapper('classrooms/students',$data);
     }
 
 }

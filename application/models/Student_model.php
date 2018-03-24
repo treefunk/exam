@@ -14,7 +14,7 @@ class Student_model extends BaseModel{
     {
         $q = $this->db->from('students')
                       ->join('student_classroom','students.id = student_classroom.student_id')
-                      ->where('id',$id)
+                      ->where('student_classroom.classroom_id',$id)
                       ->get();
         return $q->result();
     }
