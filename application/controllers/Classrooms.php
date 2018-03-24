@@ -1,5 +1,5 @@
 <?php
-require "BaseController.php";
+require_once "BaseController.php";
 
 class Classrooms extends BaseController{
     
@@ -7,6 +7,7 @@ class Classrooms extends BaseController{
     {
         parent::__construct();
         $this->load->model('classroom_model');
+        $this->load->model('teacher_model');
     }
 
     public function create()
@@ -24,7 +25,7 @@ class Classrooms extends BaseController{
             if($this->classroom_model->createClassroom($this->input->post())){
                 //Success
                 $this->session->set_flashdata(['message' => 'Successfully Created a classroom!']);
-                redirect('');
+                redirect(base_url(''));
             }else{
                 //fail
                 $this->session->set_flashdata(['message' => 'Cannot Create Classroom.']);
@@ -32,4 +33,11 @@ class Classrooms extends BaseController{
             }
         }
     }
+
+    public function manage($id)
+    {
+        $data['classroom'] = $this->classroom_model->view($id);
+        $this->wrapper('classrooms/view',$data);
+    }
+
 }

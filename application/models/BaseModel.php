@@ -25,6 +25,7 @@ class BaseModel extends CI_Model
                  break;   
                 }
                 $this->session->set_userdata([
+                    'id' => $user->id,
                     'type' => $type,
                     'username' => $user->username
                 ]);
@@ -42,12 +43,5 @@ class BaseModel extends CI_Model
         return $this->db->set($data)->insert($type);
     }
 
-    public function teacherLoggedInId(){
-        $teacherId =  $this->db->from('teachers')
-                        ->where('username',$this->session->userdata('username'))
-                        ->get()
-                        ->row()
-                        ->id;
-        return $teacherId;
-    }
+
 }

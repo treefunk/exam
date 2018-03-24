@@ -1,6 +1,6 @@
 <?php
 
-require('BaseModel.php');
+require_once 'BaseModel.php';
 
 
 class Classroom_model extends BaseModel{
@@ -13,7 +13,6 @@ class Classroom_model extends BaseModel{
 
     public function createClassroom($classroom)
     {
-        // var_dump($this->generateCode('')); die();
         $teacherId = $this->teacherLoggedInId();
         $code = $this->generateCode($teacherId);
         if($q = $this->db->insert('classrooms',[
@@ -24,12 +23,21 @@ class Classroom_model extends BaseModel{
            return true ;
         }
         return false;
-        
     }
 
     public function generateCode($salt)
     {
         return $salt.bin2hex(openssl_random_pseudo_bytes(2));
+    }
+
+    public function view($id)
+    {
+        $q = $this->db->from('classrooms')
+                        ->where('id',$id)
+                        ->where('teacher_id',$this->session->userdata('id'))
+                        ->get()
+                        ->row();
+        return $q;
     }
 
 

@@ -1,6 +1,6 @@
 <?php
 
-require "BaseController.php";
+require_once "BaseController.php";
 
 class Main extends BaseController
 {
@@ -15,8 +15,8 @@ class Main extends BaseController
     public function index()
     {
         if($this->checkIfLoggedIn('teacher')){
-
-            $this->wrapper('teacher_dashboard');
+            $data['classrooms'] = $this->teacher_model->loadClassrooms($this->session->userdata('id'));
+            $this->wrapper('teacher_dashboard',$data);
 
         }elseif($this->checkIfLoggedIn('student')){
 
