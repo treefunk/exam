@@ -27,3 +27,5 @@ Admin:
 <button type="submit">Login</button>
 
 </form>
+
+<a href="<?=base_url('')?>"><button>Login</button></a>

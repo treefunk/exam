@@ -27,3 +27,5 @@ Admin:
 <button type="submit">Login</button>
 
 </form>
+
+<a href="<?=base_url('main/register')?>"><button>Register</button></a>
