@@ -75,7 +75,6 @@ addQuestionButton.addEventListener('click',function(e){
             responses.push(inputs[i].value)
         }
 
-        alert(responses)
         
 
         summary.push({
@@ -98,7 +97,7 @@ addQuestionButton.addEventListener('click',function(e){
     }
     refreshSummary()
 
-    // alert(summary[0]);
+
     counter++;
         questionType.addEventListener('change',function(){
             switch(questionType.value){
