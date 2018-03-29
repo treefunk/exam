@@ -71,6 +71,10 @@ var ctr = 2;
 addQuestionButton.addEventListener('click',function(e){
 
     if(counter != 0){
+        if(document.getElementById('customQuestion').value.trim() == ""){
+            alert(`You can't leave the question field blank!`)
+            return -1;
+        }
         currentresponse = 1
 
         ctr=2;
