@@ -1,5 +1,5 @@
 Create Exam for <?=$classroom->name?>
-<button id="addquestion">Add Question</button>
+
 
 
 <div id="qSummary">
@@ -11,9 +11,13 @@ Create Exam for <?=$classroom->name?>
 <div id="answers">
 
 </div> 
+
 <div id="exam">
 
 </div>
+<button id="addresponse" style="display:none">Add Answer</button>
+<button id="removelastresponse" onclick="removeLast()" style="display:none">Remove Last Question</button>
+<button id="addquestion">Add Question</button>
 
 
 <script>
@@ -24,7 +28,6 @@ var question =
 <select id="questionType"  name="qType${counter}">
     <option value="truefalse">True or False</option>
     <option value="multiplechoice">Multiple Choice</option>
-    <option value="shortanswer">Short Answer</option>
 </select>
 
 Question: 
@@ -36,22 +39,21 @@ Question:
 
 var truefalse =
 `
-<input type="radio" name="" id="true" value="1">True
-<input type="radio" name="truefalse" id="false" value="0">False
+A: <input type="radio" name="truefalse" id="truefalse" value="1" checked>True
+<BR>
+B: <input type="radio" name="truefalse" id="truefalse" value="0">False
 
 `
 
 var multiplechoice=
 `
 <div id="mchoices">
-    <input type="text" name="multianswer[]" id="answer">
-    <input type="text" name="multianswer[]" id="answer">
+   <div>A: <input type="radio" name="mchoicesanswer" id="multicorrectanswer0" value="0" checked><input type="text" name="multianswer[]" id="manswer1"></div> 
+   <div>B: <input type="radio" name="mchoicesanswer" id="multicorrectanswer1" value="1"><input type="text" name="multianswer[]" id="manswer2"></div>
 </div>
-    <button id="addresponse">add response</button>
 
 `
-
-
+    
 var summary = []
 
 
@@ -61,26 +63,55 @@ var questionsDiv = document.getElementById('questions')
 var addQuestionButton = document.getElementById('addquestion')
 var answersDiv = document.getElementById('answers')
 var qSummary = document.getElementById('qSummary')
+var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+
+var ctr = 2;
 
 addQuestionButton.addEventListener('click',function(e){
-    if(counter != 0){
 
+    if(counter != 0){
+        currentresponse = 1
+
+        ctr=2;
         var q = document.getElementById('customQuestion').value
         var questiontype = document.getElementById('questionType').value
         
-        var inputs = document.getElementsByName('multianswer[]')
+        var inputs = document.querySelectorAll("[id*='manswer']");
+        var leftBlank = 0;
+
+        for(x = 0; x < inputs.length; x++){
+            if(inputs[x].value.trim() == ""){leftBlank++}
+        }
+
+        if(leftBlank > 0){
+            alert('You left a field blank! please check carefully');
+            return -1
+        }
+
+        var correctanswer
+        if(questiontype == 'truefalse'){
+            correctanswer = document.querySelector('input[name="truefalse"]:checked').value;
+        }else{
+            correctanswer = document.querySelector('input[name="mchoicesanswer"]:checked').value;
+        }
+
         var responses = []
 
         for (var i = 0; i < inputs.length; i += 1) {
             responses.push(inputs[i].value)
         }
-
         
+        if(responses === [] || responses.length == 0){
+            responses[0] = 'False'
+            responses[1] = 'True'
+        }
 
         summary.push({
             question: q,
             questionType: questiontype,
-            answers:responses
+            answers:responses,
+            correctanswer: correctanswer
         })
     
     }
@@ -90,9 +121,16 @@ addQuestionButton.addEventListener('click',function(e){
     switch(questionType.value){
         case "truefalse":
             answersDiv.innerHTML = truefalse;
+            
+            document.getElementById('addresponse').style.display = "none";
+            document.getElementById('removelastresponse').style.display = "none";
+            
         break;
         case "multiplechoice":
             answersDiv.innerHTML = multiplechoice;
+            document.getElementById('addresponse').style.display = "block";
+
+            var mchoices = document.getElementById('mchoices')
         break;
     }
     refreshSummary()
@@ -103,13 +141,15 @@ addQuestionButton.addEventListener('click',function(e){
             switch(questionType.value){
             case "truefalse":
                 answersDiv.innerHTML = truefalse;
+                document.getElementById('addresponse').style.display = "none";
+                document.getElementById('removelastresponse').style.display = "none";
             break;
             case "multiplechoice":
                 answersDiv.innerHTML = multiplechoice;
+                document.getElementById('addresponse').style.display = "block";
+                var mchoices = document.getElementById('mchoices')
             break;
-            case "shortanswer":
-                answersDiv.innerHTML = shortanswer;
-            break;
+
         }
     })
 })
@@ -118,8 +158,12 @@ function refreshSummary(){
     var qa = ''
     for(var x=0;x < summary.length; x++){
         qa += `
+            <button onClick="del(${x})">x</button>
             question ${x+1}:
-            ${summary[x].question}----------
+            <textarea disabled>
+            ${summary[x].question}
+            </textarea>
+            <br>
             questionType:
             ${summary[x].questionType}
             <br>
@@ -128,20 +172,61 @@ function refreshSummary(){
             qa += `
                 choices:<br>
             `
-            for(answer of summary[x].answers){
-                qa+= `--${answer}--<br>`
+            for(y = 0; y < summary[x].answers.length; y++){
+                qa+= `${alphabet[y]}: [${summary[x].answers[y]}]<br>`
             }
         }
+
+        qa += `Correct Answer: ${alphabet[summary[x].correctanswer]} / ${summary[x].answers[summary[x].correctanswer]} <br>`
     } 
 
     qSummary.innerHTML = qa
 }
 
+function del(index)
+{
+    summary.splice(index,1);
+    refreshSummary();
+}
+
+function removeLast(index)
+{
+    if(currentresponse != 1){
+        var mch = document.querySelectorAll("div[id='mchoices']>div");
+        if(mch[mch.length-1].childNodes[1].checked == true){
+            mch[0].childNodes[1].checked = true
+        }
+        mch[mch.length-1].remove();
+        currentresponse--
+        ctr--
+    }
+    if(currentresponse == 1){
+        document.getElementById('removelastresponse').style.display = "none";
+    }
+    //document.querySelector("div[id='mchoices']>div").remove();
+}
 
 
+var maxaddresponse = 25;
+var currentresponse = 1;
+document.getElementById('addresponse').addEventListener('click', () => {
+    if(currentresponse != maxaddresponse){
+        mchoices.insertAdjacentHTML('beforeend',
+        `
+        <div>
+        ${alphabet[++currentresponse]}: 
+        <input type="radio" name="mchoicesanswer" id="multicorrectanswer${ctr++}" value="${(ctr)-1}">
+        <input type="text" name="multianswer[]" id="manswer${ctr}">
+        </div>
+        `
+        )
+        if(currentresponse > 1){
+            document.getElementById('removelastresponse').style.display = "block";
+        }
+    }
+    
+})
 
 
-
-//yung summary(variable) ung issend sa php pagtapos na lahat
 
 </script>
