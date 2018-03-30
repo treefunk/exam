@@ -39,9 +39,9 @@ Question:
 
 var truefalse =
 `
-A: <input type="radio" name="truefalse" id="truefalse" value="1" checked>True
+A: <input type="radio" name="truefalse" id="truefalse" value="0" checked>True
 <BR>
-B: <input type="radio" name="truefalse" id="truefalse" value="0">False
+B: <input type="radio" name="truefalse" id="truefalse" value="1">False
 
 `
 
@@ -107,8 +107,8 @@ addQuestionButton.addEventListener('click',function(e){
         }
         
         if(responses === [] || responses.length == 0){
-            responses[0] = 'False'
-            responses[1] = 'True'
+            responses[0] = 'True'
+            responses[1] = 'False'
         }
 
         summary.push({
