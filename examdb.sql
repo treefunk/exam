@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 24, 2018 at 11:38 AM
+-- Generation Time: Mar 31, 2018 at 01:08 PM
 -- Server version: 10.1.30-MariaDB
 -- PHP Version: 7.2.2
 
@@ -70,7 +70,8 @@ INSERT INTO `classrooms` (`id`, `teacher_id`, `code`, `name`) VALUES
 (7, 5, '5d6a7', 'gfd'),
 (8, 5, '589c1', 'dff'),
 (9, 5, '59e67', 'gfdg'),
-(10, 5, '52736', 'fdsf');
+(10, 5, '52736', 'fdsf'),
+(11, 5, '585fa', 'physics');
 
 -- --------------------------------------------------------
 
@@ -82,7 +83,21 @@ CREATE TABLE `exams` (
   `id` int(11) NOT NULL,
   `classroom_id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
+  `timelimit` int(11) NOT NULL DEFAULT '0',
   `created_by` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `exam_time`
+--
+
+CREATE TABLE `exam_time` (
+  `id` int(11) NOT NULL,
+  `student_id` int(11) NOT NULL,
+  `exam_id` int(11) NOT NULL,
+  `time` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -93,9 +108,8 @@ CREATE TABLE `exams` (
 
 CREATE TABLE `questions` (
   `id` int(11) NOT NULL,
-  `isMultiple` tinyint(1) NOT NULL DEFAULT '0',
-  `isTrueFalse` tinyint(1) NOT NULL DEFAULT '0',
-  `isShortAnswer` tinyint(1) NOT NULL DEFAULT '0',
+  `exam_id` int(11) NOT NULL,
+  `question_type` varchar(100) NOT NULL,
   `question` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -118,7 +132,8 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`id`, `username`, `password`, `firstname`, `lastname`) VALUES
-(3, 'jhondzstudent', '$2y$10$xcLlPArPMZVeC2srn/hLJuRToNEDP0rRAZk1XfhWGJ3vJjSTCSY7y', '', '');
+(3, 'jhondzstudent', '$2y$10$xcLlPArPMZVeC2srn/hLJuRToNEDP0rRAZk1XfhWGJ3vJjSTCSY7y', '', ''),
+(4, 'brendanstudent', '$2y$10$inzcgR/zvPBVL2bA49cIB.l6pm6kd9hfzkEtPs9go5YP6iURH/3Zq', '', '');
 
 -- --------------------------------------------------------
 
@@ -136,7 +151,9 @@ CREATE TABLE `student_classroom` (
 --
 
 INSERT INTO `student_classroom` (`student_id`, `classroom_id`) VALUES
-(3, 5);
+(3, 5),
+(4, 5),
+(3, 11);
 
 -- --------------------------------------------------------
 
@@ -148,7 +165,9 @@ CREATE TABLE `student_scores` (
   `id` int(11) NOT NULL,
   `student_id` int(11) DEFAULT NULL,
   `exam_id` int(11) DEFAULT NULL,
-  `score` int(11) DEFAULT NULL
+  `score` int(11) DEFAULT NULL,
+  `total` bigint(20) NOT NULL,
+  `percentage` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -204,6 +223,12 @@ ALTER TABLE `exams`
   ADD KEY `classroom_id` (`classroom_id`);
 
 --
+-- Indexes for table `exam_time`
+--
+ALTER TABLE `exam_time`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `questions`
 --
 ALTER TABLE `questions`
@@ -256,12 +281,18 @@ ALTER TABLE `answers`
 -- AUTO_INCREMENT for table `classrooms`
 --
 ALTER TABLE `classrooms`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `exams`
 --
 ALTER TABLE `exams`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `exam_time`
+--
+ALTER TABLE `exam_time`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -274,13 +305,13 @@ ALTER TABLE `questions`
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `student_scores`
 --
 ALTER TABLE `student_scores`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `teachers`

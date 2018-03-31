@@ -9,6 +9,7 @@ class Classrooms extends BaseController{
         $this->load->model('classroom_model');
         $this->load->model('teacher_model');
         $this->load->model('student_model');
+        $this->load->model('exam_model');
     }
 
     public function create()
@@ -39,6 +40,7 @@ class Classrooms extends BaseController{
     {
         $this->checkIfLoggedIn('teacher');
         $data['classroom'] = $this->classroom_model->view($id);
+        $data['exams'] = $this->exam_model->getAllExamsInClassroomId($id);
         $this->wrapper('classrooms/manage',$data);
     }
 
@@ -57,6 +59,7 @@ class Classrooms extends BaseController{
     {
         $data['classroom'] = $this->classroom_model->findById($id);
         $data['teacher'] = $this->teacher_model->teacherOfClassroomId($id);
+        $data['exams'] = $this->exam_model->getAllUnfinishedExams($this->session->userdata('id'),$id);
         $this->wrapper('classrooms/view',$data);
     }
 

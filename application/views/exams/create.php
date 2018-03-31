@@ -1,7 +1,11 @@
 Create Exam for <?=$classroom->name?>
-
-
-
+<br>
+Exam Title:<br>
+<input type="text" id="examtitle"><br>
+Time Limit (in seconds, 0 = No time limit): <br>
+<input type="text" id="examtimelimit" value="0">
+<hr>
+Questions:
 <div id="qSummary">
 
 </div>
@@ -16,9 +20,10 @@ Create Exam for <?=$classroom->name?>
 
 </div>
 <button id="addresponse" style="display:none">Add Answer</button>
-<button id="removelastresponse" onclick="removeLast()" style="display:none">Remove Last Question</button>
+<button id="removelastresponse" onclick="removeLast()" style="display:none">Remove Last Answer</button>
 <button id="addquestion">Add Question</button>
 
+<button id="submitquiz">Submit</button>
 
 <script>
 
@@ -99,6 +104,11 @@ addQuestionButton.addEventListener('click',function(e){
         }else{
             correctanswer = document.querySelector('input[name="mchoicesanswer"]:checked').value;
         }
+        if(correctanswer === undefined)
+        {
+            alert('You cannot submit an undefined answer!');
+            return -1;
+        }
 
         var responses = []
 
@@ -111,11 +121,12 @@ addQuestionButton.addEventListener('click',function(e){
             responses[1] = 'False'
         }
 
+
         summary.push({
-            question: q,
-            questionType: questiontype,
-            answers:responses,
-            correctanswer: correctanswer
+                question: q,
+                questionType: questiontype,
+                answers:responses,
+                correctanswer: correctanswer
         })
     
     }
@@ -207,7 +218,6 @@ function removeLast(index)
     if(currentresponse == 1){
         document.getElementById('removelastresponse').style.display = "none";
     }
-    //document.querySelector("div[id='mchoices']>div").remove();
 }
 
 
@@ -231,6 +241,52 @@ document.getElementById('addresponse').addEventListener('click', () => {
     
 })
 
+/** IF Quiz is submitted */
+
+document.getElementById('submitquiz').addEventListener('click' , () => {
+    if(summary.length == 0){
+        alert(`You haven't submitted any questions!`)
+        return -1
+    }
+    var examTitle = document.getElementById('examtitle');
+    var examTimelimit = document.getElementById('examtimelimit').value;
+    examTimelimit = parseInt(examTimelimit,10)
+
+    if(isNaN(examTimelimit)){
+        alert('Please input a valid time limit!')
+        return -1;
+    }
+
+
+    if(examTitle.value === undefined || examTitle.value.trim() == "")
+    {
+        alert(`Please input the title of the exam`);
+        return -1;
+    }
+    
+    if(/[^a-zA-Z0-9\-]/.test(examTitle.value)){
+        alert('Only alphabetical characters, hypens and numbers 0-9 are allowed in the title');
+        return -1;
+    }
+
+    var httprequest = new XMLHttpRequest()
+    httprequest.onreadystatechange = (e) => {
+        if(httprequest.readyState == 4){
+            if(httprequest.status != 200){
+                var response = JSON.parse(httprequest.responseText)
+                alert(response.message)
+                return -1
+            }
+        window.location.replace(httprequest.responseURL+`classrooms/manage/<?=$classroom->id?>`);
+        }
+    }
+
+
+    httprequest.open('POST',`<?=base_url("ajaxcontroller/exam/{$classroom->id}")?>/${examTitle.value}/${examTimelimit}`)
+    httprequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
+    httprequest.send(JSON.stringify(summary))
+
+})
 
 
 </script>
