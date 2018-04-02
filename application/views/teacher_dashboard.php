@@ -7,11 +7,15 @@ Session Vars
 dba may dndagdag tayo ngayon etong tntype ko
 pag balik sa gitkraken
 di pa to nkasave diba try save
+oy joanna
+
 <h3>Hi <?=$this->session->userdata('username')?>!</h3>
 <h4><?=$this->session->userdata('type')?></h4>
 
 
 JOANNA MARIE TADEO NICOLAS
+
+oy bigti na tayo joanna ^_^
 
 <?php if($this->session->userdata('message')): ?>
 <?=$this->session->userdata('message')?>
