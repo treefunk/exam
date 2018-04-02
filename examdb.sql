@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 31, 2018 at 01:08 PM
+-- Generation Time: Apr 02, 2018 at 05:45 AM
 -- Server version: 10.1.30-MariaDB
 -- PHP Version: 7.2.2
 
@@ -65,13 +65,7 @@ CREATE TABLE `classrooms` (
 --
 
 INSERT INTO `classrooms` (`id`, `teacher_id`, `code`, `name`) VALUES
-(5, 5, '5594e', 'math'),
-(6, 5, '57db8', 'ggwp'),
-(7, 5, '5d6a7', 'gfd'),
-(8, 5, '589c1', 'dff'),
-(9, 5, '59e67', 'gfdg'),
-(10, 5, '52736', 'fdsf'),
-(11, 5, '585fa', 'physics');
+(1, 5, '58882', 'Classroom Math');
 
 -- --------------------------------------------------------
 
@@ -145,15 +139,6 @@ CREATE TABLE `student_classroom` (
   `student_id` int(11) DEFAULT NULL,
   `classroom_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `student_classroom`
---
-
-INSERT INTO `student_classroom` (`student_id`, `classroom_id`) VALUES
-(3, 5),
-(4, 5),
-(3, 11);
 
 -- --------------------------------------------------------
 
@@ -281,7 +266,7 @@ ALTER TABLE `answers`
 -- AUTO_INCREMENT for table `classrooms`
 --
 ALTER TABLE `classrooms`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `exams`
@@ -311,7 +296,7 @@ ALTER TABLE `students`
 -- AUTO_INCREMENT for table `student_scores`
 --
 ALTER TABLE `student_scores`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `teachers`

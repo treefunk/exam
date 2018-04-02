@@ -20,6 +20,9 @@ class AjaxController extends BaseController{
 
         $request_body = file_get_contents('php://input');
         $data = json_decode($request_body);
+        $examtitle = trim(urldecode($examtitle));
+        
+        var_dump($examtitle);
         $examId = $this->exam_model->createExamForClassroomId($classroomId,$examtitle,$timelimit);
         if($this->exam_model->createQuestionsAndAnswer($examId,$data)){
             $this->session->set_userdata(['message' => 'Exam Successfully Created!']);

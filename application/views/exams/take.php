@@ -41,7 +41,7 @@ function startTimer(duration, display,callback) {
                     }
                 }
 
-                httprequest.open('GET',`<?=base_url("ajaxcontroller/onLoadAjax/{$exam->id}/{$this->session->userdata('id')}")?>`)
+                httprequest.open('GET',`<?=base_url("AjaxController/onLoadAjax/{$exam->id}/{$this->session->userdata('id')}")?>`)
                 httprequest.send();
             }
             --timer
@@ -69,8 +69,8 @@ window.onload = function () {
                 form.submit();
             });
         }
-    }
-     httprequest.open('POST',`<?=base_url("ajaxcontroller/onLoadAjax/{$exam->id}/{$this->session->userdata('id')}")?>`)
+}
+     httprequest.open('POST',`<?=base_url("AjaxController/onLoadAjax/{$exam->id}/{$this->session->userdata('id')}")?>`)
      httprequest.send();
 
 

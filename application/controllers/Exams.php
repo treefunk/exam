@@ -34,7 +34,6 @@ class Exams extends BaseController{
         $totalQuestions = $this->exam_model->countTotalQuestions($examId);
         foreach($this->input->post() as $k => $v)
         {
-            $totalQuestions++;
             if($this->exam_model->getCorrectAnswerForQuestionByIndex((int)$k) == (int)$v){
                 $score++;
             }

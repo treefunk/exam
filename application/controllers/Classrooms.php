@@ -60,6 +60,7 @@ class Classrooms extends BaseController{
         $data['classroom'] = $this->classroom_model->findById($id);
         $data['teacher'] = $this->teacher_model->teacherOfClassroomId($id);
         $data['exams'] = $this->exam_model->getAllUnfinishedExams($this->session->userdata('id'),$id);
+        $data['scores'] = $this->exam_model->getAllScoresForStudent($this->session->userdata('id'),$id);
         $this->wrapper('classrooms/view',$data);
     }
 

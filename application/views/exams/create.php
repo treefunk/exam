@@ -264,7 +264,7 @@ document.getElementById('submitquiz').addEventListener('click' , () => {
         return -1;
     }
     
-    if(/[^a-zA-Z0-9\-]/.test(examTitle.value)){
+    if(/[^a-zA-Z0-9\-\s]/.test(examTitle.value)){
         alert('Only alphabetical characters, hypens and numbers 0-9 are allowed in the title');
         return -1;
     }
@@ -272,9 +272,10 @@ document.getElementById('submitquiz').addEventListener('click' , () => {
     var httprequest = new XMLHttpRequest()
     httprequest.onreadystatechange = (e) => {
         if(httprequest.readyState == 4){
-            if(httprequest.status != 200){
-                var response = JSON.parse(httprequest.responseText)
-                alert(response.message)
+            if(httprequest.status != 200 ){
+
+                // var response = JSON.parse(httprequest.responseText)
+                // alert(response.message)
                 return -1
             }
         window.location.replace(httprequest.responseURL+`classrooms/manage/<?=$classroom->id?>`);
@@ -282,7 +283,7 @@ document.getElementById('submitquiz').addEventListener('click' , () => {
     }
 
 
-    httprequest.open('POST',`<?=base_url("ajaxcontroller/exam/{$classroom->id}")?>/${examTitle.value}/${examTimelimit}`)
+    httprequest.open('POST',`<?=base_url("AjaxController/exam/{$classroom->id}")?>/${examTitle.value}/${examTimelimit}`)
     httprequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
     httprequest.send(JSON.stringify(summary))
 
