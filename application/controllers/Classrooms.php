@@ -57,6 +57,7 @@ class Classrooms extends BaseController{
 
     public function view($id)
     {
+        $this->session->set_userdata('referred_from', current_url());
         $data['classroom'] = $this->classroom_model->findById($id);
         $data['teacher'] = $this->teacher_model->teacherOfClassroomId($id);
         $data['exams'] = $this->exam_model->getAllUnfinishedExams($this->session->userdata('id'),$id);

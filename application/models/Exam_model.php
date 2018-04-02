@@ -228,5 +228,18 @@ class Exam_model extends BaseModel
                       ->get();
         return $q->result();
     }
+    
+    public function checkIfStudentHasTakenExam($studentId,$id)
+    {
+        $q = $this->db->from('student_scores')
+                      ->where('student_id',$studentId)
+                      ->where('exam_id',$id)
+                      ->get();
+        if($q->num_rows() > 0)
+        {
+            return true;
+        }
+        return false;
+    }
 
 }

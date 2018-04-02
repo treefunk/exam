@@ -48,6 +48,16 @@ class Classroom_model extends BaseModel{
         if($q->num_rows() > 0)
         {
             $classroom = $q->row();
+
+            $q = $this->db->from('student_classroom')
+                          ->where('student_id',$studentId)
+                          ->where('classroom_id',$classroom->id)
+                          ->get();
+            if($q->num_rows() > 0){
+                $this->session->set_flashdata('message','You\'ve already joined this class!');
+                return false;
+            }
+
             $q = $this->db->insert('student_classroom',[
                 'student_id' => $studentId,
                 'classroom_id' => $classroom->id
@@ -56,6 +66,7 @@ class Classroom_model extends BaseModel{
                 return true;
             }
         }else{
+            $this->session->set_flashdata('message','Code does not exist!');
             return false;
         }
     }

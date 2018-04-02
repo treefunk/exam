@@ -19,9 +19,14 @@ class Exams extends BaseController{
 
     public function take($id)
     {
-        $data['exam'] = $this->exam_model->findById($id);
-        $data['questions'] = $this->exam_model->getAllExamQuestions($id);
-        $this->wrapper('exams/take.php',$data);
+        if(!$this->exam_model->checkIfStudentHasTakenExam($this->session->userdata('id'),$id)){
+            $data['exam'] = $this->exam_model->findById($id);
+            $data['questions'] = $this->exam_model->getAllExamQuestions($id);
+            $this->wrapper('exams/take.php',$data);
+        }else{
+            $referred_from = $this->session->userdata('referred_from');
+            redirect($referred_from, 'refresh');
+        }
     }
 
     public function submit($studentId,$examId)
