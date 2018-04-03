@@ -44,7 +44,7 @@
                         <ul class="sub-icon1 list">
                           <div class="login_buttons">
                              <div class="check_button"><a href="register.php">Register</a></div>
-                             <div class="login_button"><a href="login_choose.php">Login</a></div>
+                             <div class="login_button"><a href="<?=base_url('main/login')?>">Login</a></div>
                              <div class="clear"></div>
                           </div>
                           <div class="clear"></div>
