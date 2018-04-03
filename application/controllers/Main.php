@@ -92,5 +92,14 @@ class Main extends BaseController
         redirect(base_url(''));
     }
 
+    public function joannaoyy()
+    {
+        //$this->wrapper('joanna/oyoy'); // dito sya ppunta Views/joanna/oyoy.phpko na 
+        //pakta ko sayo
+        $this->load->view('partials/header');
+        $this->load->view('partials/navigation');
+        $this->load->view('joanna/oyoy');
+    }
+
 
 }
