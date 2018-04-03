@@ -1,21 +1,14 @@
 
 Session Vars
 <pre>
-<?=var_dump($this->session->userdata())?>   sige 
+<?=var_dump($this->session->userdata())?>   
 <?php echo var_dump($this->session->userdata()) ?> 
-</pre>teka eto na
-dba may dndagdag tayo ngayon etong tntype ko
-pag balik sa gitkraken
-di pa to nkasave diba try save
-oy joanna
+</pre>
 
 <h3>Hi <?=$this->session->userdata('username')?>!</h3>
 <h4><?=$this->session->userdata('type')?></h4>
 
 
-JOANNA MARIE TADEO NICOLAS
-
-oy bigti na tayo joanna ^_^
 
 <?php if($this->session->userdata('message')): ?>
 <?=$this->session->userdata('message')?>
