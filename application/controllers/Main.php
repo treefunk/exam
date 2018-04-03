@@ -15,6 +15,7 @@ class Main extends BaseController
 
     public function index()
     {
+
         if($this->checkIfLoggedIn('teacher')){
             $data['classrooms'] = $this->teacher_model->loadClassrooms($this->session->userdata('id'));
             $this->wrapper('teacher_dashboard',$data);
@@ -29,12 +30,22 @@ class Main extends BaseController
 
         }else{
             
-            $this->wrapper('home');
+            $this->wrapper('home'); 
         }
     }
+    public function login()
+    {
+        $this->wrapper('login');
+    }
 
+    public function loginuser($id)
+    {
+        $data['id'] = $id;
+        $this->wrapper('loginuser',$data);
+    }
     public function authenticate($num) # 1 = Student | 2 = Teacher | 10 = Admin
     {
+
         $data['username'] = $this->input->post('username');
         $data['password'] = $this->input->post('password');
         
