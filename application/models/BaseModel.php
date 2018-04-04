@@ -35,9 +35,11 @@ class BaseModel extends CI_Model
                 return true;
             }
         }else{
-            var_dump("wrong password");
+            $this->session->set_flashdata(['message' => 'Invalid Credentials!']);
+            return false;
         }
-        var_dump("not found");
+        $this->session->set_flashdata(['message' => 'Invalid Credentials!']);
+        return false;
     }
 
     public function signup($data,$type) # types: [Student,Teacher,Admin]
@@ -45,6 +47,8 @@ class BaseModel extends CI_Model
         $data['password'] = password_hash($data['password'],PASSWORD_BCRYPT);
         return $this->db->set($data)->insert($type);
     }
+
+
 
 
 }

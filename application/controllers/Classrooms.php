@@ -41,7 +41,48 @@ class Classrooms extends BaseController{
         $this->checkIfLoggedIn('teacher');
         $data['classroom'] = $this->classroom_model->view($id);
         $data['exams'] = $this->exam_model->getAllExamsInClassroomId($id);
+        $data['posts'] = $this->populateFeed($id);
         $this->wrapper('classrooms/manage',$data);
+    }
+
+    public function populateFeed($classroomId,$student = false)
+    {
+        $this->load->model('exam_model');
+        $this->load->model('post_model');
+        $feed = [];
+
+
+        $exams = $this->exam_model->getAllExamsInClassroomId($classroomId);
+        $posts = $this->post_model->getAllPostsForClassroom($classroomId);
+        foreach($posts as $post)
+        {
+            $post->type = "post";
+            $post->date = new DateTime($post->created_at,new DateTimeZone('Asia/Hong_kong'));
+            if($this->post_model->checkIfPostHasAttachments($post->id)){
+                $post->attached = $this->post_model->fileOfPostId($post->id)->id;
+            }
+            $feed[] = $post;
+        }
+        foreach($exams as $exam)
+        {
+            if($this->exam_model->checkIfStudentHasTakenExam($student,$exam->id) && $this->session->userdata('type') == 'student'){
+                $name = $exam->name;
+                $date = new DateTime($exam->created_at,new DateTimeZone('Asia/Hong_kong'));
+                $created_at = $exam->created_at;
+                $score = $this->exam_model->getScoresForStudent($student,$exam->id);
+                $score->name =  $name;
+                $score->date = $date;
+                $score->type = "score";
+                $score->created_at = $created_at;
+                $feed[] = $score;
+            }else{
+                $exam->type = "exam";
+                $exam->date = new DateTime($exam->created_at,new DateTimeZone('Asia/Hong_kong'));
+                $feed[] = $exam;
+            }
+        }
+        $feed = $this->sortFeed($feed);
+        return $feed;
     }
 
     public function join()
@@ -53,6 +94,7 @@ class Classrooms extends BaseController{
         if($this->classroom_model->joinStudentToClassroom($studentId,$code)){
             $this->session->set_flashdata(['message' => 'Successfully joined the classroom!']);
         }
+        redirect(base_url(''));
     }
 
     public function view($id)
@@ -62,6 +104,7 @@ class Classrooms extends BaseController{
         $data['teacher'] = $this->teacher_model->teacherOfClassroomId($id);
         $data['exams'] = $this->exam_model->getAllUnfinishedExams($this->session->userdata('id'),$id);
         $data['scores'] = $this->exam_model->getAllScoresForStudent($this->session->userdata('id'),$id);
+        $data['posts'] = $this->populateFeed($id,$this->session->userdata('id'));
         $this->wrapper('classrooms/view',$data);
     }
 
@@ -71,6 +114,15 @@ class Classrooms extends BaseController{
         $data['students'] = $this->student_model->studentsInClassroomId($id) ;
         
         $this->wrapper('classrooms/students',$data);
+        
+    }
+
+    public function sortFeed($data)
+    {
+        usort($data, function($a,$b){
+            return strtotime($b->created_at) - strtotime($a->created_at);
+        });
+        return $data;
     }
 
 }

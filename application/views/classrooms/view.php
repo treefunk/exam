@@ -2,27 +2,46 @@ Your teacher: <?=$teacher->username ?>
 
 Classroom name: <?=$classroom->name?>
 
+<br><br>
+<form action="<?=base_url("posts/create/{$classroom->id}")?>" method="post" enctype="form/multipart">
+Title:
+<input type="text" name="title" id="title"><br>
+Body:
+<textarea name="body" id="body" cols="30" rows="3"></textarea>
+<button type="submit">Post</button>
+</form>
 
-Exams:
+Posts:
+<br>
+<?php foreach($posts as $post): ?>
+<hr>
+<br>
+    <?php if($post->type == 'post'): ?>
+    <b><?=$post->title?></b><br>
+    <p><?=$post->body?></p><br>
+        <?php if(isset($post->attached)): ?>
+        <a href="<?=base_url("posts/file/{$post->attached}")?>"><button>Download Attachment</button></a><br>
+        <?php endif; ?>
+    posted by: <?=$post->created_by?>
+    <?=$post->date->format('Y-m-d H:i')?><br>
+    
+    <?php elseif($post->type == 'exam'): ?>
+        Exam:
+        <b><?=$post->name?></b><br>
+        Timelimit:<?=$post->timelimit?> seconds.<br>
+        <a href="<?=base_url('exams/take/'.$post->id)?>"><button>Take the exam</button></a><br>
+        <?=$post->date->format('Y-m-d H:i')?><br>
+        posted by: <?=$post->created_by?>(teacher)
+    <?php elseif($post->type == 'score'): ?>
+        Exam(Completed):
+        <b><?=$post->name?></b><br>
+        Score: <?=$post->score?>/<?=$post->total?>
+        <br>
+        created at: <?=$post->created_at ?> <br>
+        finished at: <?=$post->finished_at?>
 
-<!-- TODO -->
-<?php foreach($exams as $exam):?>
-
-<li><?=$exam->name?></li>
-<a href="<?=base_url('exams/take/'.$exam->id)?>"><button>Take the exam</button></a>
-
+    <?php endif; ?>
+<hr>
+<br>
 <?php endforeach; ?>
 
-
-<br>
-Completed:
-<br>
-<?php foreach($scores as $score): ?>
-    <?=$score->exam_name?>:
-    Score: <?=$score->score?>/<?=$score->total?>
-    <?=$score->percentage?>%<br>
-
-<?php endforeach; ?>
-
-
-<?php ?>

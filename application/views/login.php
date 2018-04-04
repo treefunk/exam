@@ -1,31 +1,29 @@
-Student:
-<form action="<?=base_url('main/authenticate/1');?>" method="post">
+<!-- Header -->
+    <a name="about"></a>
+    <div class="intro-header">
+        <div class="container">
 
-<input type="text" name="username" id="username">
-<input type="password" name="password" id="password">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="intro-message">
+                        <h1>Log in as:</h1>
+                        <br>
+                        <ul class="list-inline intro-social-buttons">
+                            <li>
+                                <a href="<?=base_url("main/loginuser/2")?>" class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i> <span class="network-name">Teacher</span></a>
+                            </li>
+                            <li>
+                                <a href="<?=base_url("main/loginuser/1")?>" class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i> <span class="network-name">Student</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
 
-<button type="submit">Login</button>
+        </div>
+        <!-- /.container -->
 
-</form>
+    </div>
+    <!-- /.intro-header -->
 
-Teacher:
-<form action="<?=base_url('main/authenticate/2');?>" method="post">
-
-<input type="text" name="username" id="username">
-<input type="password" name="password" id="password">
-
-<button type="submit">Login</button>
-
-</form>
-
-Admin:
-<form action="<?=base_url('main/authenticate/10');?>" method="post">
-
-<input type="text" name="username" id="username">
-<input type="password" name="password" id="password">
-
-<button type="submit">Login</button>
-
-</form>
-
-<a href="<?=base_url('main/register')?>"><button>Register</button></a>
+    
