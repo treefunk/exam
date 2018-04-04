@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 02, 2018 at 05:45 AM
+-- Generation Time: Apr 04, 2018 at 06:47 PM
 -- Server version: 10.1.30-MariaDB
 -- PHP Version: 7.2.2
 
@@ -60,13 +60,6 @@ CREATE TABLE `classrooms` (
   `name` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `classrooms`
---
-
-INSERT INTO `classrooms` (`id`, `teacher_id`, `code`, `name`) VALUES
-(1, 5, '58882', 'Classroom Math');
-
 -- --------------------------------------------------------
 
 --
@@ -78,7 +71,8 @@ CREATE TABLE `exams` (
   `classroom_id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
   `timelimit` int(11) NOT NULL DEFAULT '0',
-  `created_by` varchar(50) NOT NULL
+  `created_by` varchar(50) NOT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -92,6 +86,52 @@ CREATE TABLE `exam_time` (
   `student_id` int(11) NOT NULL,
   `exam_id` int(11) NOT NULL,
   `time` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `files`
+--
+
+CREATE TABLE `files` (
+  `id` int(11) NOT NULL,
+  `post_id` int(11) DEFAULT NULL,
+  `name` varchar(100) NOT NULL,
+  `file_path` varchar(100) NOT NULL,
+  `full_path` varchar(200) NOT NULL,
+  `file_type` varchar(100) NOT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `lectures`
+--
+
+CREATE TABLE `lectures` (
+  `id` int(11) NOT NULL,
+  `classroom_id` int(11) NOT NULL,
+  `title` varchar(100) NOT NULL,
+  `body` text NOT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `posts`
+--
+
+CREATE TABLE `posts` (
+  `id` int(11) NOT NULL,
+  `classroom_id` int(11) NOT NULL,
+  `title` varchar(40) NOT NULL,
+  `body` text NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` varchar(50) NOT NULL,
+  `type` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -121,14 +161,6 @@ CREATE TABLE `students` (
   `lastname` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `students`
---
-
-INSERT INTO `students` (`id`, `username`, `password`, `firstname`, `lastname`) VALUES
-(3, 'jhondzstudent', '$2y$10$xcLlPArPMZVeC2srn/hLJuRToNEDP0rRAZk1XfhWGJ3vJjSTCSY7y', '', ''),
-(4, 'brendanstudent', '$2y$10$inzcgR/zvPBVL2bA49cIB.l6pm6kd9hfzkEtPs9go5YP6iURH/3Zq', '', '');
-
 -- --------------------------------------------------------
 
 --
@@ -152,7 +184,8 @@ CREATE TABLE `student_scores` (
   `exam_id` int(11) DEFAULT NULL,
   `score` int(11) DEFAULT NULL,
   `total` bigint(20) NOT NULL,
-  `percentage` int(11) NOT NULL
+  `percentage` int(11) NOT NULL,
+  `finished_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -169,13 +202,6 @@ CREATE TABLE `teachers` (
   `password` varchar(100) DEFAULT NULL,
   `created_at` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `teachers`
---
-
-INSERT INTO `teachers` (`id`, `username`, `firstname`, `lastname`, `password`, `created_at`) VALUES
-(5, 'jhondee', NULL, NULL, '$2y$10$W9rHYZGRi2yEti.oKyWR0eFPgwcXBLY2peDYtWMsuqety5b6Ujuui', NULL);
 
 --
 -- Indexes for dumped tables
@@ -211,6 +237,24 @@ ALTER TABLE `exams`
 -- Indexes for table `exam_time`
 --
 ALTER TABLE `exam_time`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `files`
+--
+ALTER TABLE `files`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `lectures`
+--
+ALTER TABLE `lectures`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `posts`
+--
+ALTER TABLE `posts`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -260,7 +304,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `answers`
 --
 ALTER TABLE `answers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `classrooms`
@@ -272,37 +316,55 @@ ALTER TABLE `classrooms`
 -- AUTO_INCREMENT for table `exams`
 --
 ALTER TABLE `exams`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `exam_time`
 --
 ALTER TABLE `exam_time`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `files`
+--
+ALTER TABLE `files`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `lectures`
+--
+ALTER TABLE `lectures`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `posts`
+--
+ALTER TABLE `posts`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `questions`
 --
 ALTER TABLE `questions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `student_scores`
 --
 ALTER TABLE `student_scores`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `teachers`
 --
 ALTER TABLE `teachers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables

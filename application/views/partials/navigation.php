@@ -9,13 +9,6 @@
                      <div class="menu">
                           <a class="toggleMenu" href="#"><img src="images/nav.png" alt="" /></a>
                             <ul class="nav" id="nav">
-                                <li><a href="shop.html">Shop JOANNA</a></li>
-                                <li><a href="team.html">Team</a></li>
-                                <li><a href="experiance.html">Events</a></li>
-                                <li><a href="experiance.html">Experiance</a></li>
-                                <li><a href="shop.html">Company</a></li>
-                                <li><a href="contact.html">Contact</a></li>                             
-                                <div class="clear"></div>
                             </ul>
                             <script type="text/javascript" src="js_snow/responsive-nav.js"></script>
                     </div>                          
@@ -43,7 +36,7 @@
                      <li><a class="active-icon c1" href="#"> </a>
                         <ul class="sub-icon1 list">
                           <div class="login_buttons">
-                             <div class="check_button"><a href="register.php">Register</a></div>
+                             <div class="check_button"><a href="<?=base_url('main/reg')?>">Register</a></div>
                              <div class="login_button"><a href="<?=base_url('main/login')?>">Login</a></div>
                              <div class="clear"></div>
                           </div>

@@ -8,3 +8,7 @@ RewriteRule ^(.*)$ index.php/$1 [L]
 <Limit GET POST PUT DELETE>
   Allow from all
 </Limit>
+
+php_value upload_max_filesize 1G
+php_value post_max_size 1G
+php_value memory_limit 1G

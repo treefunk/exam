@@ -4,7 +4,6 @@
 				</div>
 				<div class="row footer_bottom">
 				    <div class="copy">
-			           <p>© 2014 Template by w3layouts</p>
 		            </div>
    				</div>
 			</div>

@@ -1,9 +1,5 @@
 
-Session Vars
-<pre>
-<?=var_dump($this->session->userdata())?>   
-<?php echo var_dump($this->session->userdata()) ?> 
-</pre>
+
 
 <h3>Hi <?=$this->session->userdata('username')?>!</h3>
 <h4><?=$this->session->userdata('type')?></h4>
