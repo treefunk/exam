@@ -1,8 +1,9 @@
 Your teacher: <?=$teacher->username ?>
 
 Classroom name: <?=$classroom->name?>
-
-<br><br>
+<br>
+<a href="<?=base_url()?>"><button>back</button></a>
+<br><br><br><br>
 <form action="<?=base_url("posts/create/{$classroom->id}")?>" method="post" enctype="form/multipart">
 Title:
 <input type="text" name="title" id="title"><br>
@@ -20,6 +21,14 @@ Posts:
     <b><?=$post->title?></b><br>
     <p><?=$post->body?></p><br>
         <?php if(isset($post->attached)): ?>
+             <?php if($post->file_type == 'video/mp4'): ?>
+            <video width="320" height="240" controls>
+            <source src="<?=base_url('uploads/'.basename($post->full_path))?>" type="video/mp4">
+            <source src="<?=base_url('uploads/'.basename($post->full_path))?>" type="video/ogg">
+            Your browser does not support the video tag.
+        </video><br>
+        
+             <?php endif; ?>
         <a href="<?=base_url("posts/file/{$post->attached}")?>"><button>Download Attachment</button></a><br>
         <?php endif; ?>
     posted by: <?=$post->created_by?>

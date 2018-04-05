@@ -79,4 +79,13 @@ class Classroom_model extends BaseModel{
         return $q->row();
     }
 
+    public function getAllClassrooms()
+    {
+        $q = $this->db->select('teachers.username,classrooms.*')
+                      ->from('classrooms')
+                      ->join('teachers', 'classrooms.teacher_id = teachers.id')
+                      ->get();
+        return $q->result();
+    }
+
 }

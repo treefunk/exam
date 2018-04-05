@@ -24,11 +24,11 @@ class Post_model extends BaseModel{
 
             $filename = $this->db->insert_id().'_'.$_FILES['fileToUpload']['name'];
             $origname = $_FILES['fileToUpload']['name'];
-            $config['upload_path']          = APPPATH.'uploads\\';
+            $config['upload_path']          = APPPATH.'../uploads/';
             $config['max_size']             = "100000000000";
             $config['allowed_types']        = "*";
             $config['file_name']            = $filename;
-
+            //var_dump($config); die();
 
             $this->load->library('upload', $config);
             if (!$this->upload->do_upload('fileToUpload'))

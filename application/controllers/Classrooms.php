@@ -59,7 +59,11 @@ class Classrooms extends BaseController{
             $post->type = "post";
             $post->date = new DateTime($post->created_at,new DateTimeZone('Asia/Hong_kong'));
             if($this->post_model->checkIfPostHasAttachments($post->id)){
-                $post->attached = $this->post_model->fileOfPostId($post->id)->id;
+                $file = $this->post_model->fileOfPostId($post->id);
+                $post->attached = $file->id;
+                $post->full_path = $file->full_path;
+                $post->file_type = $file->file_type;
+                $post->file_name = $file->name;
             }
             $feed[] = $post;
         }
@@ -123,6 +127,12 @@ class Classrooms extends BaseController{
             return strtotime($b->created_at) - strtotime($a->created_at);
         });
         return $data;
+    }
+
+    public function index()
+    {
+        $data['classrooms'] = $this->classroom_model->getAllClassrooms();
+        $this->wrapper('classrooms/index',$data);
     }
 
 }

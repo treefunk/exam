@@ -251,4 +251,13 @@ class Exam_model extends BaseModel
         return false;
     }
 
+    public function getAllScoresForThisExam($examId)
+    {
+        $q = $this->db->from('student_scores')
+                      ->join('students', 'student_scores.student_id = students.id')
+                      ->where('exam_id',$examId)
+                      ->get();
+        return $q->result();
+    }
+
 }

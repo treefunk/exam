@@ -120,6 +120,7 @@ class Main extends BaseController
                 break;
                 case 10:
                     //Admin
+                    $this->baseModel->signup($data,'admin');
                 break;
             }
             $this->session->set_flashdata(['message' => "Signed up successfully!"]);

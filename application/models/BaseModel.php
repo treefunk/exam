@@ -10,7 +10,9 @@ class BaseModel extends CI_Model
     public function authenticate($data,$tablename) # types: [Student,Teacher,Admin]
     {
         
-        $q = $this->db->from($tablename)->where('username',$data['username'])->get();
+        $q = $this->db->from($tablename)->where('username',$data['username'])
+                                        ->where('created_at !=',NULL)
+                                        ->get();
         if($q->num_rows() > 0){
             $user = $q->result()[0];
 

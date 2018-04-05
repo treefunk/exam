@@ -21,11 +21,41 @@ class Student_model extends BaseModel{
 
     public function classroomsOfStudentId($id)
     {
+
         $q = $this->db->from('classrooms')
                       ->join('student_classroom','classrooms.id = student_classroom.classroom_id')
                       ->where('student_id',$id)
                       ->get();
         return $q->result();                      
+    }
+
+    public function getAllStudents()
+    {
+        $q = $this->db->from('students')
+                      ->where('created_at !=',NULL)
+                      ->get();
+
+
+        return $q->result();
+    }
+
+    public function deleteStudent($id)
+    {
+        $q = $this->db->from('student_scores')
+                      ->where('student_id',$id)
+                      ->delete();
+        $q = $this->db->from('student_classroom')
+                ->where('student_id',$id)
+                ->delete();
+        $q = $this->db->from('students')
+                      ->where('id',$id)
+                      ->delete();
+        if($q){
+            return true;
+        }
+        return false;
+
+        
     }
 
 

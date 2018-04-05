@@ -52,7 +52,13 @@ class Exams extends BaseController{
         ]);
         //flash
         redirect(base_url("classrooms/view/{$classroomId}"));
-        
+    }
+
+    public function scores($examId)
+    {
+        $data['scores'] = $this->exam_model->getAllScoresForThisExam($examId);
+        $data['exam'] = $this->exam_model->findById($examId);
+        $this->wrapper('exams/scores',$data);
     }
 
 
