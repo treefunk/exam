@@ -1,56 +1,86 @@
-Your teacher: <?=$teacher->username ?>
+<div class="container">
+<div class="row">
+<div class="col-lg-10 col-md-offset-4">
+    Your teacher: <?=$teacher->username ?> <br>
+    
+    Classroom name: <?=$classroom->name?>
+    <br>
+    <a href="<?=base_url()?>"><button>back</button></a>
+    <br><br><br><br>
+    <form action="<?=base_url("posts/create/{$classroom->id}")?>" method="post" enctype="form/multipart">
+    Title:
+    <input type="text" name="title" id="title"><br>
+    Body:
+    <textarea name="body" id="body" cols="30" rows="3"></textarea>
+    <button type="submit">Post</button>
+    </form>
+    
+    Posts:
 
-Classroom name: <?=$classroom->name?>
-<br>
-<a href="<?=base_url()?>"><button>back</button></a>
-<br><br><br><br>
-<form action="<?=base_url("posts/create/{$classroom->id}")?>" method="post" enctype="form/multipart">
-Title:
-<input type="text" name="title" id="title"><br>
-Body:
-<textarea name="body" id="body" cols="30" rows="3"></textarea>
-<button type="submit">Post</button>
-</form>
 
-Posts:
-<br>
+
+</div>
+</div>
+
 <?php foreach($posts as $post): ?>
-<hr>
-<br>
+<br><br><br>
     <?php if($post->type == 'post'): ?>
-    <b><?=$post->title?></b><br>
-    <p><?=$post->body?></p><br>
-        <?php if(isset($post->attached)): ?>
+
+<div class="card text-center">
+  <div class="card-body">
+    <h5 class="card-title"><?=$post->title?></h5>
+    <p class="card-text"><?=$post->body?></p>
+    <?php if(isset($post->attached)): ?>
              <?php if($post->file_type == 'video/mp4'): ?>
             <video width="320" height="240" controls>
             <source src="<?=base_url('uploads/'.basename($post->full_path))?>" type="video/mp4">
             <source src="<?=base_url('uploads/'.basename($post->full_path))?>" type="video/ogg">
             Your browser does not support the video tag.
-        </video><br>
-        
+        </video>
              <?php endif; ?>
-        <a href="<?=base_url("posts/file/{$post->attached}")?>"><button>Download Attachment</button></a><br>
-        <?php endif; ?>
-    posted by: <?=$post->created_by?>
-    <?=$post->date->format('Y-m-d H:i')?><br>
-    
-    <?php elseif($post->type == 'exam'): ?>
-        Exam:
-        <b><?=$post->name?></b><br>
-        Timelimit:<?=$post->timelimit?> seconds.<br>
-        <a href="<?=base_url('exams/take/'.$post->id)?>"><button>Take the exam</button></a><br>
-        <?=$post->date->format('Y-m-d H:i')?><br>
-        posted by: <?=$post->created_by?>(teacher)
-    <?php elseif($post->type == 'score'): ?>
-        Exam(Completed):
-        <b><?=$post->name?></b><br>
-        Score: <?=$post->score?>/<?=$post->total?>
-        <br>
-        created at: <?=$post->created_at ?> <br>
-        finished at: <?=$post->finished_at?>
-
+        <a href="<?=base_url("posts/file/{$post->attached}")?>"><br>
+        <button>Download Attachment</button></a><br>
     <?php endif; ?>
-<hr>
-<br>
-<?php endforeach; ?>
+  </div>
+  <div class="card-footer text-muted">
+    posted by: <?=$post->created_by?><br>
+    <?=$post->date->format('Y-m-d H:i')?><br>
 
+  </div>
+</div>
+
+<?php elseif($post->type == 'exam'): ?>
+
+<div class="card text-center">
+  <div class="card-header">
+    Exam
+  </div>
+  <div class="card-body">
+    <h5 class="card-title"><?=$post->name?></h5>
+    <p class="card-text">Timelimit:<?=$post->timelimit?> seconds.</p>
+    <a href="<?=base_url('exams/take/'.$post->id)?>"><button>Take the exam</button></a><br>
+  </div>
+  <div class="card-footer text-muted">
+    posted by: <?=$post->created_by?>(teacher)
+    <?=$post->date->format('Y-m-d H:i')?><br>
+  </div>
+</div>
+
+<?php elseif($post->type == 'score'): ?>
+<div class="card text-center">
+  <div class="card-header">
+    Exam(Completed):
+  </div>
+  <div class="card-body">
+    <h5 class="card-title"><?=$post->name?></h5>
+    <p class="card-text"> Score: <?=$post->score?>/<?=$post->total?><br></p>
+  </div>
+  <div class="card-footer text-muted">
+    Created at: <?=$post->created_at ?>
+    Finished at: <?=$post->finished_at?>
+  </div>
+</div>
+
+<?php endif; ?>
+<?php endforeach; ?>
+</div>

@@ -10,3 +10,5 @@
 <a href="<?=base_url('teachers')?>"><button>Teachers</button></a>
 <a href="<?=base_url('students')?>"><button>Students</button></a>
 <a href="<?=base_url('classrooms')?>"><button>Classrooms</button></a>
+<br><br><br>
+<a href="<?=base_url('main/logout')?>"><button>Logout</button></a>

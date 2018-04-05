@@ -34,7 +34,6 @@ class Post_model extends BaseModel{
             if (!$this->upload->do_upload('fileToUpload'))
             {
                     $error = array('error' => $this->upload->display_errors());
-                    var_dump($error); die();
             }
             else
             {

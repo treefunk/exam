@@ -16,7 +16,7 @@
         <button type="submit">Join</button>
     </form>
 </div>
-My Classrooms<input type="text" placeholder="Search Classroom">
+My Classrooms
 
 
 <ul>

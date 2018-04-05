@@ -11,15 +11,13 @@
 
 <?php endif; ?>
 <br />
-<!-- maganda sana kung nasa modal to   -->
-<a href="<?=base_url('classrooms/')?>"><button>Classrooms</button></a>
 <a href="<?=base_url('classrooms/create')?>"><button>Create Classroom</button></a>
 <!--   -->
 
 <div>
 
 </div>
-My Classrooms<input type="text" placeholder="Search Classroom">
+My Classrooms:
 
 
 <ul>

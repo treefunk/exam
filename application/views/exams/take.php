@@ -1,19 +1,24 @@
-time: <div id="timer"></div>
+<div class="container">
+<div class="row col-md-7 col-md-offset-3">
+    time: <div id="timer"></div>
+    
+    <form id="examform" action="<?=base_url("exams/submit/{$this->session->userdata('id')}/{$exam->id}")?>" method="post">
+        <?php foreach($questions as $question): ?>
+            <?=$question['question']?> <!-- Question --> <br>
+    
+            <?php foreach($question['answers'] as $key=>$answer): ?> <!-- Answers -->
+                <input type="radio" name="<?=$question['id']?>" value="<?=$key?>"><?=$answer->answer?>
+            <?php endforeach;?>
+        <br>
+        <?php endforeach; ?>
+        <button type="submit">Submit</button>
+    </form>
+</div>
 
-<form id="examform" action="<?=base_url("exams/submit/{$this->session->userdata('id')}/{$exam->id}")?>" method="post">
-    <?php foreach($questions as $question): ?>
-        <?=$question['question']?> <!-- Question --> <br>
-
-        <?php foreach($question['answers'] as $key=>$answer): ?> <!-- Answers -->
-            <input type="radio" name="<?=$question['id']?>" value="<?=$key?>"><?=$answer->answer?>
-        <?php endforeach;?>
-    <br>
-    <?php endforeach; ?>
-    <button type="submit">Submit</button>
-</form>
 
 
 
+</div>
 
 <script>
 
